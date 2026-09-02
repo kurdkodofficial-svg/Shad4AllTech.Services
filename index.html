@@ -39,9 +39,7 @@
         }
 
         .logo { font-size: 1.3rem; font-weight: bold; color: var(--primary); }
-
         .nav-controls { display: flex; gap: 1rem; align-items: center; }
-
         .lang-switch { display: flex; gap: 0.3rem; }
 
         .btn-ui {
@@ -152,17 +150,13 @@
             width: 100%;
         }
 
-        .project-list {
-            margin-top: 1.5rem;
-            text-align: right;
-        }
-
         .project-card {
             background: #0d1117;
             padding: 1rem;
             border-radius: 6px;
             border: 1px solid var(--border-color);
             margin-bottom: 0.8rem;
+            text-align: right;
         }
 
         .footer {
@@ -190,12 +184,12 @@
     </header>
 
     <div class="container">
-        <div class="admin-badge" id="adminBadge">تۆ وەک خاوەن چوویتەتە ژوورەوە (دەسەڵاتی تەواوت هەیە)</div>
+        <div class="admin-badge" id="adminBadge">تۆ وەک خاوەن چوویتەتە ژوورەوە (تەواوی دەسەڵاتەکان چالاکن)</div>
 
         <h1 id="heroTitle">داواکردنی خزمەتگوزاری و پارەدان</h1>
         <p style="color: var(--text-sub);" id="heroDesc">خزمەتگوزارییەکەت هەڵبژێرە، پارەکە بنێرە و پسوولەکەی لە ڕێگەی واتسئاپ بۆمان بنێرە تا پڕۆژەکەت بۆ چالاک بکەین.</p>
 
-        <!-- فۆرمی کڕیاران (پارەدان) -->
+        <!-- فۆرمی کڕیار (پارەدان) -->
         <div class="box" id="customerOrderBox">
             <div class="form-group">
                 <label id="lblCustName">ناوی تەواو:</label>
@@ -241,14 +235,13 @@
             <button class="btn-whatsapp" id="btnSubmit" onclick="sendToWhatsApp()">ناردنی داواکاری و وەصڵ بۆ واتسئاپ</button>
         </div>
 
-        <!-- بەشی بەڕێوەبەری خاوەن ماڵپەڕ (Admin Panel) -->
+        <!-- بەشی بەڕێوەبەری خاوەن ماڵپەڕ -->
         <div class="box" id="adminPortalBox" style="display: none; border-color: var(--admin-color);">
             <h3 style="color: var(--admin-color);">تەختەی کۆنتڕۆڵی خاوەن پڕۆژە (دروستکردنی ڕاستەقینە)</h3>
-            <p>لێرە دەتوانیت ڕاستەوخۆ پڕۆژەی بێبەرامبەر وەک خاوەن دروست بکەیت بەبێ ئێرۆر:</p>
-
+            
             <div class="form-group">
                 <label>ناوی پڕۆژە / ماڵپەڕ:</label>
-                <input type="text" id="adminProjectName" placeholder="نموونە: ماڵپەڕی فرۆشگای ئۆنلاین">
+                <input type="text" id="adminProjectName" placeholder="نموونە: ماڵپەڕی فرۆشگا">
             </div>
 
             <div class="form-group">
@@ -269,9 +262,9 @@
                 ➕ دروستکردن و چالاککردنی پڕۆژەکە (بێبەرامبەر)
             </button>
 
-            <div class="project-list" id="projectListSection">
-                <h4 style="color: var(--primary);">لیستی پڕۆژە دروستکراوەکانت:</h4>
-                <div id="projectsContainer">هیچ پڕۆژەیەک تۆمار نەکراوە.</div>
+            <div style="margin-top: 1.5rem;" id="projectListSection">
+                <h4 style="color: var(--primary); text-align: right;">لیستی پڕۆژە دروستکراوەکانت:</h4>
+                <div id="projectsContainer" style="text-align: right;">هیچ پڕۆژەیەک تۆمار نەکراوە.</div>
             </div>
         </div>
     </div>
@@ -281,9 +274,6 @@
     </footer>
 
     <script>
-        // تێپەڕەوشەی تایبەتی خاوەن ماڵپەڕ (دەتوانیت بیگۆڕیت)
-        const ADMIN_SECRET = "Shad@2026!";
-
         const translations = {
             ckb: {
                 dir: "rtl",
@@ -381,19 +371,34 @@
             updatePrice();
         }
 
-        function toggleAdminLogin() {
+        async function toggleAdminLogin() {
             if (!isAdmin) {
-                const pass = prompt("وشەی نهێنی بەڕێوەبەری خاوەن بنووسە:");
-                if (pass === ADMIN_SECRET) {
-                    isAdmin = true;
-                    document.getElementById('adminBadge').style.display = "inline-block";
-                    document.getElementById('customerOrderBox').style.display = "none";
-                    document.getElementById('adminPortalBox').style.display = "block";
-                    document.getElementById('heroTitle').innerText = "تەختەی بەڕێوەبەری خاوەن پڕۆژە";
-                    document.getElementById('heroDesc').innerText = "دەستڕاسی بێبەرامبەرت هەیە بۆ دروستکردنی پڕۆژەکان بەبێ بڕینی هیچ تێچوویەک.";
-                    document.getElementById('adminToggleBtn').innerText = "دەرچوون (Logout)";
-                } else if (pass !== null) {
-                    alert("وشەی نهێنی هەڵەیە! تەنها خاوەنی ماڵپەڕ مافی چوونەژوورەوەی هەیە.");
+                const pass = prompt("وشەی نهێنی خاوەن ماڵپەڕ بنووسە:");
+                if (!pass) return;
+
+                try {
+                    // ناردنی پاسۆرد بە شێوەی پرۆفێشناڵ بۆ بەشی API بۆ پشکنین لەسەر سێرڤەر
+                    const response = await fetch('/api/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ password: pass })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.success) {
+                        isAdmin = true;
+                        document.getElementById('adminBadge').style.display = "inline-block";
+                        document.getElementById('customerOrderBox').style.display = "none";
+                        document.getElementById('adminPortalBox').style.display = "block";
+                        document.getElementById('heroTitle').innerText = "تەختەی بەڕێوەبەری خاوەن پڕۆژە";
+                        document.getElementById('heroDesc').innerText = "دەستڕاسی بێبەرامبەرت هەیە بۆ دروستکردنی پڕۆژەکان.";
+                        document.getElementById('adminToggleBtn').innerText = "دەرچوون (Logout)";
+                    } else {
+                        alert("ئاگاداری: " + data.message);
+                    }
+                } catch (error) {
+                    alert("هەڵەیەک ڕوویدا لە کاتی پەیوەندیکردن بە سێرڤەر!");
                 }
             } else {
                 isAdmin = false;
@@ -427,7 +432,7 @@
 
             document.getElementById('adminProjectName').value = "";
             document.getElementById('adminProjectNotes').value = "";
-            alert("پڕۆژەکە بە سەرکەوتوویی و بە بێبەرامبەری دروستکرا!");
+            alert("پڕۆژەکە بە سەرکەوتوویی دروستکرا!");
         }
 
         function renderProjects() {
