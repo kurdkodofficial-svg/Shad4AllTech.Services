@@ -15,6 +15,7 @@
             --accent: #f59e0b;
             --border-color: #1f2937;
             --whatsapp-color: #25D366;
+            --admin-color: #10b981;
         }
 
         body {
@@ -44,12 +45,18 @@
             color: var(--primary);
         }
 
-        .lang-switch {
+        .nav-controls {
             display: flex;
-            gap: 0.5rem;
+            gap: 1rem;
+            align-items: center;
         }
 
-        .lang-btn {
+        .lang-switch {
+            display: flex;
+            gap: 0.3rem;
+        }
+
+        .btn-ui {
             background: transparent;
             border: 1px solid var(--border-color);
             color: var(--text-sub);
@@ -60,10 +67,16 @@
             transition: all 0.2s;
         }
 
-        .lang-btn.active, .lang-btn:hover {
+        .btn-ui.active, .btn-ui:hover {
             background-color: var(--primary);
             color: #ffffff;
             border-color: var(--primary);
+        }
+
+        .admin-btn {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--admin-color);
+            border: 1px solid var(--admin-color);
         }
 
         .container {
@@ -80,14 +93,17 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .section-title {
-            color: var(--text-main);
-            font-size: 1.8rem;
-            margin-top: 3.5rem;
+        .admin-badge {
+            display: none;
+            background: var(--admin-color);
+            color: #000;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-weight: bold;
             margin-bottom: 1rem;
         }
 
-        .order-box {
+        .box {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
@@ -96,9 +112,7 @@
             text-align: inherit;
         }
 
-        .form-group {
-            margin-bottom: 1.2rem;
-        }
+        .form-group { margin-bottom: 1.2rem; }
 
         label {
             display: block;
@@ -149,15 +163,6 @@
             font-weight: bold;
             cursor: pointer;
             width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.5rem;
-            transition: opacity 0.2s;
-        }
-
-        .btn-whatsapp:hover {
-            opacity: 0.9;
         }
 
         .footer {
@@ -174,18 +179,24 @@
 
     <header class="header">
         <div class="logo">Shad4AllTech.Services</div>
-        <div class="lang-switch">
-            <button class="lang-btn active" onclick="setLanguage('ckb')">کوردی</button>
-            <button class="lang-btn" onclick="setLanguage('ar')">العربية</button>
-            <button class="lang-btn" onclick="setLanguage('en')">English</button>
+        <div class="nav-controls">
+            <button class="btn-ui admin-btn" id="adminToggleBtn" onclick="toggleAdminLogin()">چوونەژوورەوەی خاوەن</button>
+            <div class="lang-switch">
+                <button class="btn-ui active lang-btn" onclick="setLanguage('ckb')">کوردی</button>
+                <button class="btn-ui lang-btn" onclick="setLanguage('ar')">العربية</button>
+                <button class="btn-ui lang-btn" onclick="setLanguage('en')">English</button>
+            </div>
         </div>
     </header>
 
     <div class="container">
+        <div class="admin-badge" id="adminBadge">تۆ وەک خاوەن چوویتەتە ژوورەوە (تەواوی خزمەتگوزارییەکان بێبەرامبەرن)</div>
+
         <h1 id="heroTitle">داواکردنی خزمەتگوزاری و پارەدان</h1>
         <p style="color: var(--text-sub);" id="heroDesc">خزمەتگوزارییەکەت هەڵبژێرە، پارەکە بنێرە و پسوولەکەی لە ڕێگەی واتسئاپ بۆمان بنێرە تا پڕۆژەکەت بۆ چالاک بکەین.</p>
 
-        <div class="order-box">
+        <!-- فۆرمی کڕیاران (بۆ پارەدان) -->
+        <div class="box" id="customerOrderBox">
             <div class="form-group">
                 <label id="lblCustName">ناوی تەواو:</label>
                 <input type="text" id="custName" placeholder="...">
@@ -206,9 +217,7 @@
                 </select>
             </div>
 
-            <div class="price-display" id="priceTag">
-                بڕی پارەی پێویست: 350$
-            </div>
+            <div class="price-display" id="priceTag">بڕی پارەی پێویست: 350$</div>
 
             <div class="form-group">
                 <label id="lblPayMethod">ڕێگەی پارەدان هەڵبژێرە:</label>
@@ -221,7 +230,7 @@
             <div class="payment-info" id="payInfoBox">
                 <strong>زانیاری پارەدان:</strong><br>
                 تکایە بڕی دیاریکراو بنێرە بۆ ژمارەی: <strong>07504909260</strong> (FastPay / FIB)<br>
-                پاشان ژمارەی وەصڵ یان کاتی پارەدانەکەم لە خوارەوە بۆ بنووسە.
+                پاشان ژمارەی وەصڵەکە لێرە بنووسە.
             </div>
 
             <div class="form-group">
@@ -229,14 +238,14 @@
                 <input type="text" id="receiptInfo" placeholder="...">
             </div>
 
-            <div class="form-group">
-                <label id="lblDetails">ڕوونکردنەوەی کورت دەربارەی پڕۆژەکەت:</label>
-                <textarea id="projectDetails" rows="3" placeholder="..."></textarea>
-            </div>
+            <button class="btn-whatsapp" id="btnSubmit" onclick="sendToWhatsApp()">ناردنی داواکاری و وەصڵ بۆ واتسئاپ</button>
+        </div>
 
-            <button class="btn-whatsapp" id="btnSubmit" onclick="sendToWhatsApp()">
-                ناردنی داواکاری و وەصڵ بۆ واتسئاپ
-            </button>
+        <!-- بەشی خاوەن ماڵپەڕ (Owner / Admin Portal) -->
+        <div class="box" id="adminPortalBox" style="display: none; border-color: var(--admin-color);">
+            <h3 style="color: var(--admin-color);">تەختەی کۆنتڕۆڵی خاوەن پڕۆژە (بێبەرامبەر)</h3>
+            <p>تۆ وەک خاوەنی ماڵپەڕ دەتوانیت ڕاستەوخۆ کارەکانت بکەیت بەبێ هیچ تێچوویەک.</p>
+            <button class="btn-ui" style="background: var(--admin-color); color: #000; width: 100%; padding: 0.8rem;" onclick="alert('دەستڕەسی ڕاستەوخۆ هەپێدرا!')">دەستپێکردنی پڕۆژەی نوێ وەک Admin</button>
         </div>
     </div>
 
@@ -255,16 +264,15 @@
                 lblSelectService: "هەڵبژاردنی خزمەتگوزاری:",
                 lblPayMethod: "ڕێگەی پارەدان هەڵبژێرە:",
                 lblReceipt: "کۆدی وەصڵ / تێبینی پارەدان:",
-                lblDetails: "ڕوونکردنەوەی کورت دەربارەی پڕۆژەکەت:",
                 priceText: "بڕی پارەی پێویست: ",
-                payInfoBox: '<strong>زانیاری پارەدان:</strong><br>تکایە بڕی دیاریکراو بنێرە بۆ ژمارەی: <strong>07504909260</strong> (FastPay / FIB)<br>پاشان ژمارەی وەصڵ یان کاتی پارەدانەکەم لە خوارەوە بۆ بنووسە.',
+                payInfoBox: '<strong>زانیاری پارەدان:</strong><br>تکایە بڕی دیاریکراو بنێرە بۆ ژمارەی: <strong>07504909260</strong> (FastPay / FIB)<br>پاشان ژمارەی وەصڵەکە لێرە بنووسە.',
                 btnSubmit: "ناردنی داواکاری و وەصڵ بۆ واتسئاپ",
                 footerText: "© Shad4AllTech.Services. تەواوی مافەکانی پارێزراوە.",
                 opt1: "دروستکردنی ئەپڵیکەیشن یان ماڵپەڕ - $350",
                 opt2: "میوانداریکردن و هۆستینگ (1 ساڵ) - $80",
                 opt3: "بەڕێوەبردن و بەبازاڕکردنی فرۆشتن - $120",
-                opt4: "پاكێجی گشتگیر (دروستکردن + هۆستینگ + فرۆشتن) - $500",
-                errAlert: "تکایە ناونیشان، ژمارەی تەلەفۆن و ژمارەی وەصڵەکەت بە تەواوی پڕبکەرەوە!"
+                opt4: "پاكێجی گشتگیر - $500",
+                adminBtn: "چوونەژوورەوەی خاوەن"
             },
             ar: {
                 dir: "rtl",
@@ -275,40 +283,39 @@
                 lblSelectService: "اختر الخدمة:",
                 lblPayMethod: "اختر طريقة الدفع:",
                 lblReceipt: "رقم الوصل / ملاحظة الدفع:",
-                lblDetails: "شرح مختصر عن مشروعك:",
                 priceText: "المبلغ المطلوب: ",
-                payInfoBox: '<strong>معلومات الدفع:</strong><br>يرجى إرسال المبلغ إلى الرقم: <strong>07504909260</strong> (FastPay / FIB)<br>ثم اكتب رقم الوصل أو ملاحظة الدفع أدناه.',
+                payInfoBox: '<strong>معلومات الدفع:</strong><br>يرجى إرسال المبلغ إلى الرقم: <strong>07504909260</strong> (FastPay / FIB)<br>ثم اكتب رقم الوصل أدناه.',
                 btnSubmit: "إرسال الطلب والوصل عبر الواتساب",
                 footerText: "© Shad4AllTech.Services. جميع الحقوق محفوظة.",
-                opt1: "إنشاء تطبيق أو موقع إلكتروني - $350",
-                opt2: "الاستضافة والتطبيق (سنة واحدة) - $80",
-                opt3: "إدارة وتسويق المبيعات - $120",
-                opt4: "الباقة الشاملة (إنشاء + استضافة + بيع) - $500",
-                errAlert: "يرجى ملء الاسم ورقم الهاتف ورقم الوصل بالكامل!"
+                opt1: "إنشاء تطبيق أو موقع - $350",
+                opt2: "الاستضافة والتطبيق (سنة) - $80",
+                opt3: "إدارة المبيعات - $120",
+                opt4: "الباقة الشاملة - $500",
+                adminBtn: "دخول المالك"
             },
             en: {
                 dir: "ltr",
                 heroTitle: "Order Service & Payment",
-                heroDesc: "Select your service, send payment, and submit the receipt via WhatsApp to start your project.",
+                heroDesc: "Select your service, send payment, and submit the receipt via WhatsApp.",
                 lblCustName: "Full Name:",
                 lblCustPhone: "Phone Number:",
                 lblSelectService: "Select Service:",
-                lblPayMethod: "Select Payment Method:",
-                lblReceipt: "Receipt ID / Payment Note:",
-                lblDetails: "Short Project Description:",
+                lblPayMethod: "Payment Method:",
+                lblReceipt: "Receipt ID:",
                 priceText: "Required Amount: ",
-                payInfoBox: '<strong>Payment Info:</strong><br>Please send the amount to: <strong>07504909260</strong> (FastPay / FIB)<br>Then enter the receipt ID below.',
-                btnSubmit: "Send Order & Receipt to WhatsApp",
+                payInfoBox: '<strong>Payment Info:</strong><br>Please send amount to: <strong>07504909260</strong> (FastPay / FIB)<br>Then enter receipt ID.',
+                btnSubmit: "Send Order via WhatsApp",
                 footerText: "© Shad4AllTech.Services. All rights reserved.",
-                opt1: "App or Website Development - $350",
-                opt2: "Hosting & Deployment (1 Year) - $80",
-                opt3: "Sales & Marketing Management - $120",
-                opt4: "All-in-One Package (Dev + Hosting + Sales) - $500",
-                errAlert: "Please fill in your Name, Phone Number, and Receipt ID!"
+                opt1: "App/Website Dev - $350",
+                opt2: "Hosting (1 Year) - $80",
+                opt3: "Sales Management - $120",
+                opt4: "All-in-One Package - $500",
+                adminBtn: "Owner Login"
             }
         };
 
         let currentLang = 'ckb';
+        let isAdmin = false;
 
         function setLanguage(lang) {
             currentLang = lang;
@@ -320,17 +327,20 @@
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
 
-            document.getElementById('heroTitle').innerText = t.heroTitle;
-            document.getElementById('heroDesc').innerText = t.heroDesc;
+            if (!isAdmin) {
+                document.getElementById('heroTitle').innerText = t.heroTitle;
+                document.getElementById('heroDesc').innerText = t.heroDesc;
+            }
+
             document.getElementById('lblCustName').innerText = t.lblCustName;
             document.getElementById('lblCustPhone').innerText = t.lblCustPhone;
             document.getElementById('lblSelectService').innerText = t.lblSelectService;
             document.getElementById('lblPayMethod').innerText = t.lblPayMethod;
             document.getElementById('lblReceipt').innerText = t.lblReceipt;
-            document.getElementById('lblDetails').innerText = t.lblDetails;
             document.getElementById('payInfoBox').innerHTML = t.payInfoBox;
             document.getElementById('btnSubmit').innerText = t.btnSubmit;
             document.getElementById('footerText').innerText = t.footerText;
+            document.getElementById('adminToggleBtn').innerText = isAdmin ? "دەرچوون" : t.adminBtn;
 
             document.getElementById('opt1').innerText = t.opt1;
             document.getElementById('opt2').innerText = t.opt2;
@@ -338,6 +348,29 @@
             document.getElementById('opt4').innerText = t.opt4;
 
             updatePrice();
+        }
+
+        function toggleAdminLogin() {
+            if (!isAdmin) {
+                const pass = prompt("وشەی نهێنی خاوەن ماڵپەڕ بنووسە (تێپەڕەوشەی تاقیکردنەوە: 1234):");
+                if (pass === "1234") {
+                    isAdmin = true;
+                    document.getElementById('adminBadge').style.display = "inline-block";
+                    document.getElementById('customerOrderBox').style.display = "none";
+                    document.getElementById('adminPortalBox').style.display = "block";
+                    document.getElementById('heroTitle').innerText = "تەختەی بەڕێوەبەری خاوەن ماڵپەڕ";
+                    document.getElementById('heroDesc').innerText = "هەموان بۆ تۆ بە بێبەرامبەر کار دەکەن و هیچ بەشی پارەدانێک پێویست ناکات.";
+                    document.getElementById('adminToggleBtn').innerText = "دەرچوون (Logout)";
+                } else {
+                    alert("وشەی نهێنی هەڵەیە!");
+                }
+            } else {
+                isAdmin = false;
+                document.getElementById('adminBadge').style.display = "none";
+                document.getElementById('customerOrderBox').style.display = "block";
+                document.getElementById('adminPortalBox').style.display = "none";
+                setLanguage(currentLang);
+            }
         }
 
         function updatePrice() {
@@ -348,7 +381,6 @@
         }
 
         function sendToWhatsApp() {
-            const t = translations[currentLang];
             const name = document.getElementById('custName').value.trim();
             const phone = document.getElementById('custPhone').value.trim();
             const serviceSelect = document.getElementById('serviceSelect');
@@ -356,33 +388,19 @@
             const price = serviceSelect.value;
             const payMethod = document.getElementById('payMethod').value;
             const receipt = document.getElementById('receiptInfo').value.trim();
-            const details = document.getElementById('projectDetails').value.trim();
 
             if (!name || !phone || !receipt) {
-                alert(t.errAlert);
+                alert('تکایە ناونیشان، ژمارەی تەلەفۆن و ژمارەی وەصڵەکەت بە تەواوی پڕبکەرەوە!');
                 return;
             }
 
             const myWhatsAppNumber = "9647504909260";
+            const message = `داواکارییەکی نوێ:%0Aناوی کڕیار: ${encodeURIComponent(name)}%0Aتەلەفۆن: ${encodeURIComponent(phone)}%0Aخزمەتگوزاری: ${encodeURIComponent(serviceName)}%0Aبڕی پارە: ${price}$%0Aڕێگە: ${encodeURIComponent(payMethod)}%0Aوەصڵ: ${encodeURIComponent(receipt)}`;
 
-            const message = `Hello/السلام علیکم%0A` +
-                `New Order Request / داواکارییەکی نوێ:%0A%0A` +
-                `👤 *Name / ناو:* ${encodeURIComponent(name)}%0A` +
-                `📞 *Phone / تەلەفۆن:* ${encodeURIComponent(phone)}%0A` +
-                `🛠 *Service / خزمەتگوزاری:* ${encodeURIComponent(serviceName)}%0A` +
-                `💰 *Price / بڕی پارە:* ${price}$%0A` +
-                `💳 *Method / ڕێگەی پارەدان:* ${encodeURIComponent(payMethod)}%0A` +
-                `🧾 *Receipt ID / وەصڵ:* ${encodeURIComponent(receipt)}%0A` +
-                `📝 *Details / تێبینی:* ${encodeURIComponent(details || "None")}%0A%0A` +
-                `Please review and approve this transaction.`;
-
-            const whatsappUrl = `https://wa.me/${myWhatsAppNumber}?text=${message}`;
-            window.open(whatsappUrl, '_blank');
+            window.open(`https://wa.me/${myWhatsAppNumber}?text=${message}`, '_blank');
         }
 
-        // Initialize default UI
         setLanguage('ckb');
     </script>
-
 </body>
 </html>
