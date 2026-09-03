@@ -382,14 +382,19 @@
 
         async function toggleAdminLogin() {
             if (!isAdmin) {
-                const pass = prompt("وشەی نهێنی خاوەن ماڵپەڕ بنووسە:");
+                let pass = prompt("وشەی نهێنی خاوەن ماڵپەڕ بنووسە:");
                 if (!pass) return;
 
-                // Hash ی پاسۆردی shad@2026!
-                const targetHash = "29bdf37ba523ad63a62883bd4edffaa7a6c9d09cbf2a3ae945fa8f0bebc3d8db";
+                // پاککردنەوەی فەزای بەتاڵ لەسەرەتا و کۆتایی پاسۆردەکە
+                pass = pass.trim();
+
+                // Hash ی هەردوو شێوازی shad@2026! و Shad@2026!
+                const lowerHash = "29bdf37ba523ad63a62883bd4edffaa7a6c9d09cbf2a3ae945fa8f0bebc3d8db";
+                const upperHash = "c7d79b1836f561ee6fe5a5c689f4eb1be283d5a4be46b036573c5cf8c6edc849";
+
                 const userHash = await hashPassword(pass);
 
-                if (userHash === targetHash) {
+                if (userHash === lowerHash || userHash === upperHash) {
                     isAdmin = true;
                     document.getElementById('adminBadge').style.display = "inline-block";
                     document.getElementById('customerOrderBox').style.display = "none";
