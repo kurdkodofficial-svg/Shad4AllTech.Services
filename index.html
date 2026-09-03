@@ -347,7 +347,9 @@
             document.documentElement.dir = t.dir;
 
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
 
             if (!isAdmin) {
                 document.getElementById('heroTitle').innerText = t.heroTitle;
@@ -372,29 +374,15 @@
             updatePrice();
         }
 
-        async function hashPassword(pass) {
-            const encoder = new TextEncoder();
-            const data = encoder.encode(pass);
-            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-            const hashArray = Array.from(new Uint8Array(hashBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        }
-
-        async function toggleAdminLogin() {
+        function toggleAdminLogin() {
             if (!isAdmin) {
                 let pass = prompt("وشەی نهێنی خاوەن ماڵپەڕ بنووسە:");
                 if (!pass) return;
 
-                // پاککردنەوەی فەزای بەتاڵ لەسەرەتا و کۆتایی پاسۆردەکە
                 pass = pass.trim();
 
-                // Hash ی هەردوو شێوازی shad@2026! و Shad@2026!
-                const lowerHash = "29bdf37ba523ad63a62883bd4edffaa7a6c9d09cbf2a3ae945fa8f0bebc3d8db";
-                const upperHash = "c7d79b1836f561ee6fe5a5c689f4eb1be283d5a4be46b036573c5cf8c6edc849";
-
-                const userHash = await hashPassword(pass);
-
-                if (userHash === lowerHash || userHash === upperHash) {
+                // ڕاستەوخۆ بەراوردی پاسۆردەکە دەکات بەبێ کێشەی Hash
+                if (pass === "shad@2026!" || pass === "Shad@2026!") {
                     isAdmin = true;
                     document.getElementById('adminBadge').style.display = "inline-block";
                     document.getElementById('customerOrderBox').style.display = "none";
@@ -487,8 +475,6 @@
 
             window.open(`https://wa.me/${myWhatsAppNumber}?text=${message}`, '_blank');
         }
-
-        setLanguage('ckb');
     </script>
 </body>
 </html>
