@@ -184,12 +184,12 @@
     </header>
 
     <div class="container">
-        <div class="admin-badge" id="adminBadge">تۆ وەک خاوەن چوویتەتە ژوورەوە (تەواوی دەسەڵاتەکان چالاکن)</div>
+        <div class="admin-badge" id="adminBadge">تۆ وەک خاوەن چوویتەتە ژوورەوە (دەسەڵاتی تەواوت هەیە)</div>
 
         <h1 id="heroTitle">داواکردنی خزمەتگوزاری و پارەدان</h1>
         <p style="color: var(--text-sub);" id="heroDesc">خزمەتگوزارییەکەت هەڵبژێرە، پارەکە بنێرە و پسوولەکەی لە ڕێگەی واتسئاپ بۆمان بنێرە تا پڕۆژەکەت بۆ چالاک بکەین.</p>
 
-        <!-- فۆرمی کڕیار (پارەدان) -->
+        <!-- فۆرمی کڕیاران (پارەدان) -->
         <div class="box" id="customerOrderBox">
             <div class="form-group">
                 <label id="lblCustName">ناوی تەواو:</label>
@@ -238,10 +238,11 @@
         <!-- بەشی بەڕێوەبەری خاوەن ماڵپەڕ -->
         <div class="box" id="adminPortalBox" style="display: none; border-color: var(--admin-color);">
             <h3 style="color: var(--admin-color);">تەختەی کۆنتڕۆڵی خاوەن پڕۆژە (دروستکردنی ڕاستەقینە)</h3>
-            
+            <p>لێرە دەتوانیت ڕاستەوخۆ پڕۆژەی بێبەرامبەر وەک خاوەن دروست بکەیت بەبێ ئێرۆر:</p>
+
             <div class="form-group">
                 <label>ناوی پڕۆژە / ماڵپەڕ:</label>
-                <input type="text" id="adminProjectName" placeholder="نموونە: ماڵپەڕی فرۆشگا">
+                <input type="text" id="adminProjectName" placeholder="نموونە: ماڵپەڕی فرۆشگای ئۆنلاین">
             </div>
 
             <div class="form-group">
@@ -371,34 +372,33 @@
             updatePrice();
         }
 
+        async function hashPassword(pass) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(pass);
+            const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+
         async function toggleAdminLogin() {
             if (!isAdmin) {
                 const pass = prompt("وشەی نهێنی خاوەن ماڵپەڕ بنووسە:");
                 if (!pass) return;
 
-                try {
-                    // ناردنی پاسۆرد بە شێوەی پرۆفێشناڵ بۆ بەشی API بۆ پشکنین لەسەر سێرڤەر
-                    const response = await fetch('/api/login', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ password: pass })
-                    });
+                // Hash ی پاسۆردی shad@2026!
+                const targetHash = "29bdf37ba523ad63a62883bd4edffaa7a6c9d09cbf2a3ae945fa8f0bebc3d8db";
+                const userHash = await hashPassword(pass);
 
-                    const data = await response.json();
-
-                    if (data.success) {
-                        isAdmin = true;
-                        document.getElementById('adminBadge').style.display = "inline-block";
-                        document.getElementById('customerOrderBox').style.display = "none";
-                        document.getElementById('adminPortalBox').style.display = "block";
-                        document.getElementById('heroTitle').innerText = "تەختەی بەڕێوەبەری خاوەن پڕۆژە";
-                        document.getElementById('heroDesc').innerText = "دەستڕاسی بێبەرامبەرت هەیە بۆ دروستکردنی پڕۆژەکان.";
-                        document.getElementById('adminToggleBtn').innerText = "دەرچوون (Logout)";
-                    } else {
-                        alert("ئاگاداری: " + data.message);
-                    }
-                } catch (error) {
-                    alert("هەڵەیەک ڕوویدا لە کاتی پەیوەندیکردن بە سێرڤەر!");
+                if (userHash === targetHash) {
+                    isAdmin = true;
+                    document.getElementById('adminBadge').style.display = "inline-block";
+                    document.getElementById('customerOrderBox').style.display = "none";
+                    document.getElementById('adminPortalBox').style.display = "block";
+                    document.getElementById('heroTitle').innerText = "تەختەی بەڕێوەبەری خاوەن پڕۆژە";
+                    document.getElementById('heroDesc').innerText = "دەستڕاسی بێبەرامبەرت هەیە بۆ دروستکردنی پڕۆژەکان.";
+                    document.getElementById('adminToggleBtn').innerText = "دەرچوون (Logout)";
+                } else {
+                    alert("وشەی نهێنی هەڵەیە!");
                 }
             } else {
                 isAdmin = false;
@@ -432,7 +432,7 @@
 
             document.getElementById('adminProjectName').value = "";
             document.getElementById('adminProjectNotes').value = "";
-            alert("پڕۆژەکە بە سەرکەوتوویی دروستکرا!");
+            alert("پڕۆژەکە بە سەرکەوتوویی و بە بێبەرامبەری دروستکرا!");
         }
 
         function renderProjects() {
