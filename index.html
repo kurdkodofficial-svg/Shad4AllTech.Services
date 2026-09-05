@@ -11,6 +11,12 @@
     <meta name="author" content="Shad4AllTech">
     <meta name="robots" content="index, follow">
 
+    <!-- 🌐 ناساندنی زمانەکان بۆ گووگل (hreflang Tags) -->
+    <link rel="alternate" hreflang="ckb" href="https://kurdkodofficial-svg.github.io/Shad4AllTech.Services/?lang=ckb" />
+    <link rel="alternate" hreflang="ar" href="https://kurdkodofficial-svg.github.io/Shad4AllTech.Services/?lang=ar" />
+    <link rel="alternate" hreflang="en" href="https://kurdkodofficial-svg.github.io/Shad4AllTech.Services/?lang=en" />
+    <link rel="alternate" hreflang="x-default" href="https://kurdkodofficial-svg.github.io/Shad4AllTech.Services/" />
+
     <!-- 📲 بەشی تایبەت بە سۆشیاڵ میدیا (Open Graph / Facebook / WhatsApp) -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://kurdkodofficial-svg.github.io/Shad4AllTech.Services/">
@@ -37,7 +43,7 @@
     }
     </script>
 
-    <!-- هەێنانی فۆنتی پیشەیی Vazirmatn -->
+    <!-- هێنانی فۆنتی پیشەیی Vazirmatn -->
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -93,12 +99,21 @@
 
         .lang-btn {
             padding: 0.5rem 1rem;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.1);
             color: var(--text-white);
             border: 1px solid var(--card-border);
             border-radius: 8px;
             cursor: pointer;
             font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        /* 🛠️ چاککردنی دیارنەمانی ناوی زمانەکان لە لیستەکەدا */
+        .lang-btn option {
+            background-color: #090d16 !important;
+            color: #ffffff !important;
+            padding: 10px;
         }
 
         .hero {
