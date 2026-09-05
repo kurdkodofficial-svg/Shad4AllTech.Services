@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shad4AllTech.Services</title>
+    <title>Shad4AllTech.Services | دروستکردنی ئەپ و ماڵپەڕ</title>
     <style>
         :root {
-            --bg-color: #0b0f19;
-            --card-bg: #111827;
-            --text-main: #f9fafb;
-            --text-sub: #9ca3af;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
             --primary: #3b82f6;
-            --accent: #f59e0b;
-            --border-color: #1f2937;
+            --accent: #10b981;
+            --border-color: #334155;
             --whatsapp-color: #25D366;
         }
 
         body {
             margin: 0;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: system-ui, -apple-system, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
-            line-height: 1.7;
+            line-height: 1.6;
         }
 
         .header {
@@ -29,7 +29,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 1rem 2rem;
-            background-color: rgba(17, 24, 39, 0.8);
+            background-color: rgba(30, 41, 59, 0.9);
             backdrop-filter: blur(8px);
             border-bottom: 1px solid var(--border-color);
             position: sticky;
@@ -39,41 +39,68 @@
 
         .lang-select {
             padding: 0.4rem 0.8rem;
-            background-color: #1f2937;
+            background-color: #0f172a;
             color: white;
             border: 1px solid var(--border-color);
             border-radius: 6px;
             cursor: pointer;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 2rem auto;
-            padding: 0 1rem;
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: linear-gradient(180deg, rgba(59,130,246,0.1) 0%, rgba(15,23,42,0) 100%);
         }
+
+        .hero h1 { font-size: 2.2rem; color: #60a5fa; margin-bottom: 0.5rem; }
+        .hero p { color: var(--text-sub); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 0 1rem 3rem; }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .price-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .price-card:hover, .price-card.active {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .price-card h4 { margin: 0; font-size: 1.3rem; }
+        .price-card .amount { font-size: 2rem; font-weight: bold; color: var(--accent); margin: 0.5rem 0; }
+        .price-card ul { list-style: none; padding: 0; color: var(--text-sub); font-size: 0.9rem; text-align: right; }
+        .price-card ul li { margin-bottom: 0.4rem; }
 
         .card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
         }
 
         .payment-box {
-            background: #1e293b;
+            background: #0f172a;
             border-right: 4px solid var(--accent);
             padding: 1rem;
             border-radius: 8px;
             margin-bottom: 1rem;
         }
 
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-sub);
-        }
-
+        label { display: block; margin-bottom: 0.5rem; color: var(--text-sub); }
         input, select, textarea {
             width: 100%;
             padding: 0.75rem;
@@ -89,11 +116,12 @@
             background-color: var(--primary);
             color: white;
             border: none;
-            padding: 0.75rem 1.5rem;
+            padding: 0.9rem 1.5rem;
             border-radius: 6px;
             cursor: pointer;
             width: 100%;
             font-weight: bold;
+            font-size: 1rem;
         }
 
         .btn-whatsapp {
@@ -102,6 +130,21 @@
             text-decoration: none;
             display: block;
             text-align: center;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .feature-item {
+            background: rgba(255,255,255,0.03);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9rem;
         }
     </style>
 </head>
@@ -116,25 +159,74 @@
         </select>
     </div>
 
+    <div class="hero">
+        <h1 id="heroTitle">دروستکردنی لاپەڕە، ئەپ و سیستەمی تایبەت</h1>
+        <p id="heroSub">بە باڵاترین کوالێتی و خێراترین کات پڕۆژەکەت لای ئێمە ئامادە بکە.</p>
+    </div>
+
     <div class="container">
+
+        <!-- نرخەکان و خزمەتگوزارییەکان -->
+        <h3 id="servicesTitle" style="text-align: center; margin-top: 0;">⚡ نرخ و خزمەتگوزارییەکان</h3>
+        <div class="pricing-grid">
+            <div class="price-card active" onclick="selectPlan('15', 'opt1')">
+                <h4 id="plan1Title">ماڵپەڕی ئاسایی</h4>
+                <div class="amount">$15</div>
+                <ul>
+                    <li id="p1_1">✔ دیزاینی سەردەمیی (HTML/CSS)</li>
+                    <li id="p1_2">✔ گونجاو بۆ مۆبایل و کۆمپیوتەر</li>
+                    <li id="p1_3">✔ ئامادەکردن بە خێرایی</li>
+                </ul>
+            </div>
+            <div class="price-card" onclick="selectPlan('30', 'opt2')">
+                <h4 id="plan2Title">ئەپڵیکەیشنی مۆبایل</h4>
+                <div class="amount">$30</div>
+                <ul>
+                    <li id="p2_1">✔ دیزاینی ئاسانی بەکارهێنان</li>
+                    <li id="p2_2">✔ بەستنەوە بە API</li>
+                    <li id="p2_3">✔ گونجاو بۆ هەردوو سیستەم</li>
+                </ul>
+            </div>
+            <div class="price-card" onclick="selectPlan('50', 'opt3')">
+                <h4 id="plan3Title">سیستەم و بنکەی داتا</h4>
+                <div class="amount">$50</div>
+                <ul>
+                    <li id="p3_1">✔ بنکەی داتای کارا (Database)</li>
+                    <li id="p3_2">✔ بەستنەوەی ژیرۆکی دەستکرد</li>
+                    <li id="p3_3">✔ پشتیوانی و چاکسازیی تەواو</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- تایبەتمەندییەکان -->
+        <div class="features-grid">
+            <div class="feature-item" id="f1">🔒 <b>پاراستنی کلیل:</b> کلیلی API بە تەواوی ئاوەها دەپارێزرێت.</div>
+            <div class="feature-item" id="f2">⚡ <b>کارکردنی خێرا:</b> ڕەوانەکردنی خێرا بۆ وەتسئەپ.</div>
+            <div class="feature-item" id="f3">🛠️ <b>پشتیوانی:</b> گەرەنتی چاکسازی دوای ڕادەستکردن.</div>
+        </div>
+
+        <br>
+
+        <!-- زانیاریی پارەدان -->
         <div class="card">
             <h3 id="payTitle">💳 زانیاریی پارەدانی خزمەتگوزاری</h3>
             <div class="payment-box">
                 <p><b id="payNumLabel">ژمارەی فاست پەی / FIB:</b> <span style="color: var(--accent); font-weight: bold;">07504909260</span></p>
-                <p><b id="payPriceLabel">بڕی پارەی پێویست:</b> <span id="priceDisplay" style="color: #10b981; font-weight: bold;">$15</span></p>
+                <p><b id="payPriceLabel">بڕی پارەی دیاریکراو:</b> <span id="priceDisplay" style="color: #10b981; font-weight: bold;">$15</span></p>
             </div>
             <p id="payNote" style="font-size: 0.9rem; color: var(--text-sub);">تێبینی: دوای ئەنجامدانی پارەدان، پسوولەکەت بنێرە بۆ وەتسئەپ بۆ کارا کردنی خێرا.</p>
             <a href="https://wa.me/9647504909260?text=سڵاو،%20وێنەی%20پسوولەی%20پارەدانم%20ناردووە" id="btnWhatsapp" class="btn btn-whatsapp" target="_blank">📲 ناردنی پسوولە بۆ وەتسئەپ</a>
         </div>
 
+        <!-- فۆرمی دروستکردنی پڕۆژە -->
         <div class="card">
-            <h3 id="formTitle">🛠️ دروستکردنی پڕۆژەی نوێ</h3>
+            <h3 id="formTitle">🛠️ داواکردنی پڕۆژەی نوێ</h3>
             
             <label id="lblType" for="projectType">جۆری پڕۆژە هەڵبژێرە:</label>
-            <select id="projectType" onchange="updatePrice()">
-                <option value="15">ماڵپەڕی ئاسایی - $15</option>
-                <option value="30">ئەپڵیکەیشنی مۆبایل - $30</option>
-                <option value="50">سیستەم و بنکەی داتا - $50</option>
+            <select id="projectType" onchange="updatePriceFromSelect()">
+                <option value="15" id="opt1">ماڵپەڕی ئاسایی - $15</option>
+                <option value="30" id="opt2">ئەپڵیکەیشنی مۆبایل - $30</option>
+                <option value="50" id="opt3">سیستەم و بنکەی داتا - $50</option>
             </select>
 
             <label id="lblApiKey" for="apiKey">کلیلی تایبەت (OpenAI / Anthropic API Key):</label>
@@ -150,9 +242,127 @@
         </div>
     </div>
 
-    <!-- بەشی شێوێندراو و شاراوە (Obfuscated Code) -->
     <script>
-        var _0x21a4=["\x76\x61\x6C\x75\x65","\x6C\x61\x6E\x67\x53\x77\x69\x74\x63\x68\x65\x72","\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64","\x64\x69\x72","\x64\x6F\x63\x75\x6D\x65\x6E\x74\x45\x6C\x65\x6D\x65\x6E\x74","\x6C\x61\x6E\x67","\x69\x6E\x6E\x65\x72\x54\x65\x78\x74","\x70\x61\x79\x54\x69\x74\x6C\x65","\x70\x61\x79\x4E\x75\x6D\x4C\x61\x62\x65\x6C","\x70\x61\x79\x50\x72\x69\x63\x65\x4C\x61\x62\x65\x6C","\x70\x61\x79\x4E\x6F\x74\x65","\x62\x74\x6E\x57\x68\x61\x74\x73\x61\x70\x70","\x66\x6F\x72\x6D\x54\x69\x74\x6C\x65","\x6C\x62\x6C\x54\x79\x70\x65","\x6C\x62\x6C\x41\x70\x69\x4B\x65\x79","\x6C\x62\x6C\x4E\x61\x6D\x65","\x6C\x62\x6C\x4E\x6F\x74\x65\x73","\x62\x74\x6E\x53\x75\x62\x6D\x69\x74","\x6F\x70\x74\x69\x6F\x6E\x73","\x70\x72\x6F\x6A\x65\x63\x74\x54\x79\x70\x65","\x74\x65\x78\x74","\x70\x72\x69\x63\x65\x44\x69\x73\x70\x6C\x61\x79","\x24","\x61\x70\x69\x4B\x65\x79","\x70\x72\x6F\x6A\x65\x63\x74\x4E\x61\x6D\x65","\x70\x72\x6F\x6A\x65\x63\x74\x4E\x6F\x74\x65\x73","\x73\x65\x6C\x65\x63\x74\x65\x64\x49\x6E\x64\x65\x78","\x74\x6B\x61\x79\x65\x20\x68\x61\x6E\x61\x6B\x61\x6E\x20\x70\x72\x62\x6B\x61\x77\x61","\x61\x6C\x65\x72\x74","\x64\x61\x77\x61\x6B\x61\x72\x79\x20\x70\x72\x6F\x6A\x65\x79\x20\x6E\x6F\x77\x3A\x25\x30\x41","\x20\x6E\x61\x77\x69\x20\x70\x72\x6F\x6A\x65\x3A\x20","\x25\x30\x41","\x20\x6A\x6F\x72\x79\x20\x70\x72\x6F\x6A\x65\x3A\x20","\x20\x6E\x72\x78\x3A\x20\x24","\x20\x41\x50\x49\x20\x4B\x65\x79\x3A\x20","\x20\x74\x65\x65\x62\x69\x6E\x69\x3A\x20","\x68\x74\x74\x70\x73\x3A\x2F\x2F\x77\x61\x2E\x6D\x65\x2F\x39\x36\x34\x37\x35\x30\x34\x39\x30\x39\x32\x36\x30\x3F\x74\x65\x78\x74\x3D","\x5F\x62\x6C\x61\x6E\x6B","\x6F\x70\x65\x6E"];const translations={ckb:{dir:'rtl',payTitle:'💳 زانیاریی پارەدانی خزمەتگوزاری',payNumLabel:'ژمارەی فاست پەی / FIB:',payPriceLabel:'بڕی پارەی پێویست:',payNote:'تێبینی: دوای ئەنجامدانی پارەدان، پسوولەکەت بنێرە بۆ وەتسئەپ بۆ کارا کردنی خێرا.',btnWhatsapp:'📲 ناردنی پسوولە بۆ وەتسئەپ',formTitle:'🛠️ دروستکردنی پڕۆژەی نوێ',lblType:'جۆری پڕۆژە هەڵبژێرە:',lblApiKey:'کلیلی تایبەت (OpenAI / Anthropic API Key):',lblName:'ناوی پڕۆژە:',lblNotes:'ڕوونکردنەوە یان داواکارییەکان:',btnSubmit:'🚀 ناردن و دروستکردنی پڕۆژە',opt1:'ماڵپەڕی ئاسایی - $15',opt2:'ئەپڵیکەیشنی مۆبایل - $30',opt3:'سیستەم و بنکەی داتا - $50'},ar:{dir:'rtl',payTitle:'💳 معلومات الدفع للخدمة',payNumLabel:'رقم FastPay / FIB:',payPriceLabel:'المبلغ المطلوب:',payNote:'ملاحظة: بعد إتمام الدفع، يرجى إرسال الإيصال عبر الواتساب للتفعيل السريع.',btnWhatsapp:'📲 إرسال الإيصال عبر الواتساب',formTitle:'🛠️ إنشاء مشروع جديد',lblType:'اختر نوع المشروع:',lblApiKey:'مفتاح API الخاص بك (OpenAI / Anthropic):',lblName:'اسم المشروع:',lblNotes:'ملاحظات أو متطلبات إضافية:',btnSubmit:'🚀 إرسال وإنشاء المشروع',opt1:'موقع إلكتروني - $15',opt2:'تطبيق موبايل - $30',opt3:'نظام وإدارة بيانات - $50'},en:{dir:'ltr',payTitle:'💳 Payment Details',payNumLabel:'FastPay / FIB Number:',payPriceLabel:'Required Amount:',payNote:'Note: After payment, send the receipt via WhatsApp for fast activation.',btnWhatsapp:'📲 Send Receipt on WhatsApp',formTitle:'🛠️ Create New Project',lblType:'Select Project Type:',lblApiKey:'API Key (OpenAI / Anthropic):',lblName:'Project Name:',lblNotes:'Notes or Requirements:',btnSubmit:'🚀 Submit & Create Project',opt1:'Website - $15',opt2:'Mobile App - $30',opt3:'Web System - $50'}};function changeLanguage(){const _0x12b1x3=document[_0x21a4[2]](_0x21a4[1])[_0x21a4[0]];const _0x12b1x4=translations[_0x12b1x3];document[_0x21a4[4]][_0x21a4[3]]=_0x12b1x4[_0x21a4[3]];document[_0x21a4[4]][_0x21a4[5]]=_0x12b1x3;document[_0x21a4[2]](_0x21a4[7])[_0x21a4[6]]=_0x12b1x4[_0x21a4[7]];document[_0x21a4[2]](_0x21a4[8])[_0x21a4[6]]=_0x12b1x4[_0x21a4[8]];document[_0x21a4[2]](_0x21a4[9])[_0x21a4[6]]=_0x12b1x4[_0x21a4[9]];document[_0x21a4[2]](_0x21a4[10])[_0x21a4[6]]=_0x12b1x4[_0x21a4[10]];document[_0x21a4[2]](_0x21a4[11])[_0x21a4[6]]=_0x12b1x4[_0x21a4[11]];document[_0x21a4[2]](_0x21a4[12])[_0x21a4[6]]=_0x12b1x4[_0x21a4[12]];document[_0x21a4[2]](_0x21a4[13])[_0x21a4[6]]=_0x12b1x4[_0x21a4[13]];document[_0x21a4[2]](_0x21a4[14])[_0x21a4[6]]=_0x12b1x4[_0x21a4[14]];document[_0x21a4[2]](_0x21a4[15])[_0x21a4[6]]=_0x12b1x4[_0x21a4[15]];document[_0x21a4[2]](_0x21a4[16])[_0x21a4[6]]=_0x12b1x4[_0x21a4[16]];document[_0x21a4[2]](_0x21a4[17])[_0x21a4[6]]=_0x12b1x4[_0x21a4[17]];const _0x12b1x5=document[_0x21a4[2]](_0x21a4[19])[_0x21a4[18]];_0x12b1x5[0][_0x21a4[20]]=_0x12b1x4['opt1'];_0x12b1x5[1][_0x21a4[20]]=_0x12b1x4['opt2'];_0x12b1x5[2][_0x21a4[20]]=_0x12b1x4['opt3']}function updatePrice(){const _0x12b1x7=document[_0x21a4[2]](_0x21a4[19]);document[_0x21a4[2]](_0x21a4[21])[_0x21a4[6]]=_0x21a4[22]+_0x12b1x7[_0x21a4[0]]}function submitProject(){const _0x12b1x9=document[_0x21a4[2]](_0x21a4[23])[_0x21a4[0]];const _0x12b1xa=document[_0x21a4[2]](_0x21a4[24])[_0x21a4[0]];const _0x12b1xb=document[_0x21a4[2]](_0x21a4[25])[_0x21a4[0]];const _0x12b1xc=document[_0x21a4[2]](_0x21a4[19])[_0x21a4[0]];const _0x12b1xd=document[_0x21a4[2]](_0x21a4[19])[_0x21a4[18]][document[_0x21a4[2]](_0x21a4[19])[_0x21a4[26]]][_0x21a4[20]];if(!_0x12b1x9||!_0x12b1xa){alert(_0x21a4[27]);return};const _0x12b1xe=_0x21a4[28]+_0x21a4[29]+encodeURIComponent(_0x12b1xa)+_0x21a4[30]+_0x21a4[31]+encodeURIComponent(_0x12b1xd)+_0x21a4[30]+_0x21a4[32]+_0x12b1xc+_0x21a4[30]+_0x21a4[33]+encodeURIComponent(_0x12b1x9)+_0x21a4[30]+_0x21a4[34]+encodeURIComponent(_0x12b1xb);window[_0x21a4[37]](_0x21a4[35]+_0x12b1xe,_0x21a4[36])}
+        const translations = {
+            ckb: {
+                dir: 'rtl',
+                heroTitle: 'دروستکردنی لاپەڕە، ئەپ و سیستەمی تایبەت',
+                heroSub: 'بە باڵاترین کوالێتی و خێراترین کات پڕۆژەکەت لای ئێمە ئامادە بکە.',
+                servicesTitle: '⚡ نرخ و خزمەتگوزارییەکان',
+                plan1Title: 'ماڵپەڕی ئاسایی',
+                plan2Title: 'ئەپڵیکەیشنی مۆبایل',
+                plan3Title: 'سیستەم و بنکەی داتا',
+                p1_1: '✔ دیزاینی سەردەمیی (HTML/CSS)', p1_2: '✔ گونجاو بۆ مۆبایل و کۆمپیوتەر', p1_3: '✔ ئامادەکردن بە خێرایی',
+                p2_1: '✔ دیزاینی ئاسانی بەکارهێنان', p2_2: '✔ بەستنەوە بە API', p2_3: '✔ گونجاو بۆ هەردوو سیستەم',
+                p3_1: '✔ بنکەی داتای کارا (Database)', p3_2: '✔ بەستنەوەی ژیرۆکی دەستکرد', p3_3: '✔ پشتیوانی و چاکسازیی تەواو',
+                f1: '🔒 <b>پاراستنی کلیل:</b> کلیلی API بە تەواوی ئاوەها دەپارێزرێت.',
+                f2: '⚡ <b>کارکردنی خێرا:</b> ڕەوانەکردنی خێرا بۆ وەتسئەپ.',
+                f3: '🛠️ <b>پشتیوانی:</b> گەرەنتی چاکسازی دوای ڕادەستکردن.',
+                payTitle: '💳 زانیاریی پارەدانی خزمەتگوزاری',
+                payNumLabel: 'ژمارەی فاست پەی / FIB:',
+                payPriceLabel: 'بڕی پارەی دیاریکراو:',
+                payNote: 'تێبینی: دوای ئەنجامدانی پارەدان، پسوولەکەت بنێرە بۆ وەتسئەپ بۆ کارا کردنی خێرا.',
+                btnWhatsapp: '📲 ناردنی پسوولە بۆ وەتسئەپ',
+                formTitle: '🛠️ داواکردنی پڕۆژەی نوێ',
+                lblType: 'جۆری پڕۆژە هەڵبژێرە:',
+                lblApiKey: 'کلیلی تایبەت (OpenAI / Anthropic API Key):',
+                lblName: 'ناوی پڕۆژە:',
+                lblNotes: 'ڕوونکردنەوە یان داواکارییەکان:',
+                btnSubmit: '🚀 ناردن و دروستکردنی پڕۆژە',
+                opt1: 'ماڵپەڕی ئاسایی - $15', opt2: 'ئەپڵیکەیشنی مۆبایل - $30', opt3: 'سیستەم و بنکەی داتا - $50'
+            },
+            ar: {
+                dir: 'rtl',
+                heroTitle: 'إنشاء المواقع والتطبيقات والأنظمة الخاصة',
+                heroSub: 'احصل على مشروعك بأعلى جودة وأسرع وقت ممكن.',
+                servicesTitle: '⚡ الأسعار والخدمات',
+                plan1Title: 'موقع إلكتروني', plan2Title: 'تطبيق موبايل', plan3Title: 'نظام وإدارة بيانات',
+                p1_1: '✔ تصميم عصري (HTML/CSS)', p1_2: '✔ متوافق مع الموبايل والكمبيوتر', p1_3: '✔ إنجاز سريع',
+                p2_1: '✔ تصميم سهل الاستخدام', p2_2: '✔ ربط مع الـ API', p2_3: '✔ متوافق مع جميع الأنظمة',
+                p3_1: '✔ قاعدة بيانات فعالة', p3_2: '✔ دمج الذكاء الاصطناعي', p3_3: '✔ دعم وصيانة كاملة',
+                f1: '🔒 <b>حماية المفتاح:</b> حماية كاملة لمفتاح الـ API الخاص بك.',
+                f2: '⚡ <b>سرعة التنفيذ:</b> تحويل سريع إلى الواتساب.',
+                f3: '🛠️ <b>الدعم:</b> ضمان الصيانة بعد التسليم.',
+                payTitle: '💳 معلومات الدفع للخدمة',
+                payNumLabel: 'رقم FastPay / FIB:', payPriceLabel: 'المبلغ المحدد:',
+                payNote: 'ملاحظة: بعد إتمام الدفع، يرجى إرسال الإيصال عبر الواتساب للتفعيل السريع.',
+                btnWhatsapp: '📲 إرسال الإيصال عبر الواتساب', formTitle: '🛠️ طلب مشروع جديد',
+                lblType: 'اختر نوع المشروع:', lblApiKey: 'مفتاح API الخاص بك (OpenAI / Anthropic):',
+                lblName: 'اسم المشروع:', lblNotes: 'ملاحظات أو متطلبات إضافية:',
+                btnSubmit: '🚀 إرسال وطلب المشروع',
+                opt1: 'موقع إلكتروني - $15', opt2: 'تطبيق موبايل - $30', opt3: 'نظام وإدارة بيانات - $50'
+            },
+            en: {
+                dir: 'ltr',
+                heroTitle: 'Custom Websites, Mobile Apps & Systems',
+                heroSub: 'Get your high-quality project ready in no time.',
+                servicesTitle: '⚡ Services & Pricing',
+                plan1Title: 'Standard Website', plan2Title: 'Mobile Application', plan3Title: 'Web System & DB',
+                p1_1: '✔ Modern Design (HTML/CSS)', p1_2: '✔ Mobile & Desktop Responsive', p1_3: '✔ Fast Delivery',
+                p2_1: '✔ User-Friendly UI/UX', p2_2: '✔ API Integration', p2_3: '✔ Cross-Platform Compatible',
+                p3_1: '✔ Robust Database System', p3_2: '✔ AI Integration', p3_3: '✔ Full Maintenance & Support',
+                f1: '🔒 <b>API Protection:</b> Your API keys are kept 100% secure.',
+                f2: '⚡ <b>Instant Processing:</b> Direct connection to WhatsApp.',
+                f3: '🛠️ <b>Full Support:</b> Maintenance guaranteed after delivery.',
+                payTitle: '💳 Payment Details',
+                payNumLabel: 'FastPay / FIB Number:', payPriceLabel: 'Selected Amount:',
+                payNote: 'Note: After payment, send the receipt via WhatsApp for quick activation.',
+                btnWhatsapp: '📲 Send Receipt on WhatsApp', formTitle: '🛠️ Request New Project',
+                lblType: 'Select Project Type:', lblApiKey: 'API Key (OpenAI / Anthropic):',
+                lblName: 'Project Name:', lblNotes: 'Notes or Requirements:',
+                btnSubmit: '🚀 Submit & Request Project',
+                opt1: 'Standard Website - $15', opt2: 'Mobile Application - $30', opt3: 'Web System & DB - $50'
+            }
+        };
+
+        function changeLanguage() {
+            const lang = document.getElementById('langSwitcher').value;
+            const t = translations[lang];
+
+            document.documentElement.dir = t.dir;
+            document.documentElement.lang = lang;
+
+            for (let key in t) {
+                if (key === 'dir') continue;
+                let el = document.getElementById(key);
+                if (el) {
+                    if (key.startsWith('f')) el.innerHTML = t[key];
+                    else el.innerText = t[key];
+                }
+            }
+        }
+
+        function selectPlan(price, optId) {
+            document.getElementById('projectType').value = price;
+            document.getElementById('priceDisplay').innerText = `$${price}`;
+        }
+
+        function updatePriceFromSelect() {
+            const val = document.getElementById('projectType').value;
+            document.getElementById('priceDisplay').innerText = `$${val}`;
+        }
+
+        function submitProject() {
+            const apiKey = document.getElementById('apiKey').value;
+            const name = document.getElementById('projectName').value;
+            const notes = document.getElementById('projectNotes').value;
+            const price = document.getElementById('projectType').value;
+            const projectType = document.getElementById('projectType').options[document.getElementById('projectType').selectedIndex].text;
+
+            if (!apiKey || !name) {
+                alert('تکایە خانەکانی زانیاری پڕبکەرەوە / Please fill in the required fields');
+                return;
+            }
+
+            const message = `داواکاری پڕۆژەی نوێ / New Project Order:%0A` +
+                            `📌 ناوی پڕۆژە: ${encodeURIComponent(name)}%0A` +
+                            `📦 جۆری پڕۆژە: ${encodeURIComponent(projectType)}%0A` +
+                            `💰 نرخ: $${price}%0A` +
+                            `🔑 API Key: ${encodeURIComponent(apiKey)}%0A` +
+                            `📝 تێبینی: ${encodeURIComponent(notes)}`;
+
+            window.open(`https://wa.me/9647504909260?text=${message}`, '_blank');
+        }
     </script>
 </body>
 </html>
